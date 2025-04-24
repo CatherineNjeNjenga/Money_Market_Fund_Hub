@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, Float, String, Boolean, ForeignKey, DateTime, Date
 from sqlalchemy.sql import func
 from sqlalchemy.sql.expression import text
 from sqlalchemy.orm import relationship
@@ -6,34 +6,51 @@ from .database import Base
 
 
 class Firm(Base):
-    __tablename__ = 'firms'
+    __tablename__ = "firm"
 
-    code = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    fund_manager = Column(String, nullable=False)
-    week_1 = Column(String, nullable=False)
-    week_2 = Column(String, nullable=False)
-    week_3 = Column(String, nullable=False)
-    week_4 = Column(String, nullable=False)
-    week_5 = Column(String, nullable=False)
-    week_6 = Column(String, nullable=False)
-    week_7 = Column(String, nullable=False)
-    week_8 = Column(String, nullable=False)
-    owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    owner = relationship("User")
+    firm_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, index=True)
+    firm_name = Column(String, nullable=False)
+    licenced = Column(String, nullable=False)
     licenced = Column(Boolean, server_default='TRUE', nullable=False)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=text('func.now()'))
+    last_changed_date = Column(Date, nullable=False)
+
+    owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+
+    owner = relationship("User", back_populates="id")
+    reports = relationship("Report", back_populates="firm")
+    # Many-to-many relationship between Firm and User tables
+    votes = relationship("User", secondary="vote", back_populates="vote")
+
+class Report(Base):
+    __tablename__ = "report"
+
+    report_id = Column(Integer, primary_key=True, index=True)
+    week_number = Column(String, nullable=False)
+    firm_rate = Column(Float, nullable=False)
+    last_changed_date = Column(Date, nullable=False)
+    last_changed_date = Column(Date, nullable=False)
+
+    firm_id = Column(Integer, ForeignKey("firm.firm_id"))
+
+    firm = relationship("Firm", back_populates="reports")
 
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = "user"
     
-    id = Column(Integer, primary_key=True, nullable=False, unique=True)
+    user_id = Column(Integer, primary_key=True, nullable=False, unique=True, index=True)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
+    last_changed_date = Column(Date, nullable=False)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=text('func.now()'))
+
+    # Many-to-many relationship between User and Firm tables
+    vote = relationship("Firm", secondary="vote", back_populates="votes")
 
 
 class Vote(Base):
-    __tablename__ = "votes"
+    __tablename__ = "vote"
     
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
-    firm_id = Column(Integer, ForeignKey("firms.code", ondelete="CASCADE"), primary_key=True)
+    user_id = Column(Integer, ForeignKey("user.user_id", ondelete="CASCADE"), primary_key=True, index=True)
+    firm_id = Column(Integer, ForeignKey("firm.firm_id", ondelete="CASCADE"), primary_key=True, index=True)
+    last_changed_date = Column(Date, nullable=False)

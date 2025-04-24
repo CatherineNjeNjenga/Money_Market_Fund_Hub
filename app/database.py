@@ -6,9 +6,10 @@ import sqlite3
 import pandas as pd
 import time
 
-SQLALCHEMY_DATABASE_URL = 'sqlite+pysqlite:///app/data/firms.db'
+SQLALCHEMY_DATABASE_URL = 'sqlite+pysqlite:///./data/firms.db'
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True)
+# configuration setting that allows multiple connections to the firms database without an error being thrown
+engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True, connect_args={"check_same_thread": False})
 
 SessionLocal = sessionmaker(autoflush=False, autocommit=False, bind=engine)
 

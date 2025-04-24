@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     # database_password: str
     # database_name: str
     # database_username: str
+    
     model_config = SettingsConfigDict(env_file = '.env', extra='ignore')
    
 
