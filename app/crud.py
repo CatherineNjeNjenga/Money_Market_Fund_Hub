@@ -2,8 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm import joinedload
 from datetime import date
 
-
-import models
+from . import models
 
 
 def get_firm(db: Session, firm_id: int):
@@ -34,25 +33,25 @@ def get_reports(db: Session, skip: int = 0, limit: int = 100,
    return query.offset(skip).limit(limit).all()
 
 
-def get_user(db: Session, user_id: int = None):
+def get_user(db: Session, user_id: int):
    return db.query(models.User).filter(
        models.User.user_id == user_id).first()
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100,
                 min_last_changed_date: date = None, email: str = None):
-   
-   if min_last_changed_date:
+    query = db.query(models.User)
+    if min_last_changed_date:
        query = query.filter(
            models.User.last_changed_date >= min_last_changed_date)                             
-   if email:
+    if email:
        query = query.filter(models.User.email == email)    
-   return query.offset(skip).limit(limit).all()
+    return query.offset(skip).limit(limit).all()
 
 
 def get_votes(db: Session, skip: int = 0, limit: int = 100,
              min_last_changed_date: date = None,
-             user_id: str = None, firm_id: int = None):
+             user_id: int = None, firm_id: int = None):
    query = db.query(models.Vote)
    if min_last_changed_date:
        query = query.filter(

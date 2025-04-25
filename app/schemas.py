@@ -1,60 +1,48 @@
-from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 from pydantic.types import conint
-from typing import Optional
-from datetime import datetime
+from typing import Optional, List
+from datetime import datetime, date
+
+class Report(BaseModel):
+    model_config = ConfigDict(from_attributes = True)
+    report_id: int
+    firm_id: int
+    week_number: str
+    firm_rate: float
+    last_changed_date: date
+
 
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
 
 class UserOut(BaseModel):
-    id: int
+    model_config = ConfigDict(from_attributes = True)
+    user_id: int
     email: EmailStr
     created_at: datetime
-
-    class Config:
-        from_attributes = True
+    last_changed_date: date
 
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
-class FirmBase(BaseModel):
-    code: int
-    fund_manager: str
-    week_1: str
-    week_2: str
-    week_3: str
-    week_4: str
-    week_5: str
-    week_6: str
-    week_7: str
-    week_8: str
+class Vote(BaseModel):
+    firm_id: int
+    dir: conint(le=1)
 
-class FirmCreate(FirmBase):
-    pass
+class FirmBase(BaseModel):
+    model_config = ConfigDict(from_attributes = True)
+    firm_id: int
+    firm_name: str
+    licenced: bool
+    last_changed_date: date
 
 class Firm(FirmBase):
-    owner_id: int
-    owner: UserOut
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
-
-class FirmOut(BaseModel):
-    Firm: Firm
-    votes: int
-
-    class Config:
-        from_attributes = True
-
-class FirmsOut(BaseModel):
-    Firm: Firm
-    votes: int
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes = True)
+    reports: List[Report] = []
+    votes: List[Vote] = []
+    
 
 class Token(BaseModel):
     access_token: str
@@ -63,6 +51,15 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     id: Optional[int] = None
 
-class Vote(BaseModel):
-    firm_id: int
-    dir: conint(le=1)
+
+
+
+class Counts(BaseModel):
+    firm_count: int
+    user_count: int
+    vote_count: int
+
+# class FirmOut(BaseModel):
+#     model_config = ConfigDict(from_attributes = True)
+#     Firm: Firm
+#     votes: int
