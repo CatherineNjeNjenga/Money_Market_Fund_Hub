@@ -52,8 +52,6 @@ class TokenData(BaseModel):
     id: Optional[int] = None
 
 
-
-
 class Counts(BaseModel):
     firm_count: int
     user_count: int

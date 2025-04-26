@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine
 from .routers import firm, user, auth, vote, report, count
-from .config import settings
 # import aiosqlite
 
 # models.Base.metadata.create_all(bind=engine)
@@ -49,10 +48,10 @@ app.add_middleware(
 
 app.include_router(firm.router)
 app.include_router(report.router)
-app.include_router(count.router)
 app.include_router(user.router)
-app.include_router(auth.router)
 app.include_router(vote.router)
+app.include_router(count.router)
+# app.include_router(auth.router)
 
 @app.get("/", tags=["Analytics"])
 async def root():

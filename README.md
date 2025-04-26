@@ -1,54 +1,57 @@
-# SportsWorldCentral (SWC) Fantasy Football API Documentation
+# Money Market Fund (MMF) Hub API Documentation
 
-Thanks for using the SportsWorldCentral API. This is your one-stop shop for
-accessing data from our fantasy football website, www.sportsworldcentral.com.
+Thanks for using the Money Market Fund Hub API. This is your one-stop hub for
+accessing data on the Kenyan Money Market Fund.
 
 
 ## Table of Contents
 
 - [Public API](#public-api)
 - [Getting Started](#getting-started)
-  - [Analytics](#analytics)
-  - [Player](#player)
-  - [Scoring](#scoring)
-  - [Membership](#membership)
+  - [Analytics](#Analytics)
+  - [Firm](#Firm)
+  - [Rates](#Rates)
+  - [Votes](#Votes)
 - [Terms of Service](#terms-of-service)
 - [Example Code](#example-code)
 - [Software Development Kit (SDK)](#software-development-kit-sdk)
 
 ## Public API
-*Coming Soon*
+Our API is hosted at https://moneymarketfundhub.onrender.com/(https://moneymarketfundhub.onrender.com/). 
 
-We'll be deploying our application soon. Check back for the public API address.
+You can access the interactive documentation at [https://moneymarketfundhub.onrender.com/docs](https://moneymarketfundhub.onrender.com/docs).
+
+You can view the OpenAPI Specification (OAS) file at
+[https://moneymarketfundhub.onrender.com/openapi.json](https://moneymarketfundhub.onrender.com/openapi.json).
 
 ## Getting Started
 
-Since all of the data is public, the SWC API doesn't require any authentication. 
+Since all of the data is public, the MMF Hub API doesn't require any authentication. 
 All of the the following data is available using GET endpoints that return 
 JSON data.
 
 ### Analytics
 
-Get information about the health of the API and counts of leagues, teams, 
-and players.
+Get information about the health of the API and counts of firms, users,
+and votes.
 
-### Player
-You can get a list of all NFL players, or search for an individual player 
-by player_id.
+### Firm
+You can get a list of licenced Kenyan Money Market Fund Managers firms, or search for an individual firm by
+firm_id.
 
-### Scoring
+### Rates
 
-You can get a list of NFL player performances, including the fantasy points they 
-scored using SWC league scoring.
+You can get a list of fund managers reports, including the effective annual rates
+the reported and publised on Business Daily.
 
-### Membership
-Get information about all the SWC fantasy football leagues and the teams in them.
+### Votes
+Get information about the recommended firms as voted for by individual investors within the different firms.
 
 ## Terms of Service
 
 By using the API, you agree to the following terms of service:
 
-- **Usage Limits**: You are allowed up to 2000 requests per day. Exceeding this 
+- **Usage Limits**: You are allowed up to 500 requests per day. Exceeding this 
                     limit may result in your API key being suspended.
 - **No Warranty**: We don't provide any warranty of the API or its operation.
 
@@ -61,7 +64,7 @@ import httpx
 
 HEALTH_CHECK_ENDPOINT = "/"
     
-with httpx.Client(base_url=self.swc_base_url) as client:
+with httpx.Client(base_url=self.mmf_hub_base_url) as client:
     response = client.get(self.HEALTH_CHECK_ENDPOINT)
     print(response.json())
 ```
