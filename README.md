@@ -17,7 +17,7 @@ accessing data on the Kenyan Money Market Fund.
 - [Software Development Kit (SDK)](#software-development-kit-sdk)
 
 ## Public API
-Our API is hosted at https://moneymarketfundhub.onrender.com/(https://moneymarketfundhub.onrender.com/). 
+Our API is hosted at [https://moneymarketfundhub.onrender.com/](https://moneymarketfundhub.onrender.com/). 
 
 You can access the interactive documentation at [https://moneymarketfundhub.onrender.com/docs](https://moneymarketfundhub.onrender.com/docs).
 
