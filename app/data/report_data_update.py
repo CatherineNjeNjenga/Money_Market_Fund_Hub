@@ -1,9 +1,14 @@
 import sqlite3
 import pandas as pd
-from datetime import datetime
+from pathlib import Path
 
-conn = sqlite3.connect('moneymarketfund_data.db', check_same_thread=False)
-extraction_datetime = datetime.now()
+conn = sqlite3.connect('app/data/moneymarketfund_data.db', check_same_thread=False)
+data_folder = Path('C:/Users/Toshiba/Desktop/')
+file_to_open = data_folder/"report_data.csv"
+csv_file = pd.read_csv(file_to_open)
+df = pd.DataFrame(csv_file)
+df.to_csv('app/data/report_data.csv', index=False)
+
 report_file = 'report_data.csv'
 
 df: pd.DataFrame = pd.read_csv(report_file, usecols=['report_id', 'week_number', 'firm_rate', 'firm_id', 'last_changed_date'])
