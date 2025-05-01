@@ -70,6 +70,6 @@ with httpx.Client(base_url=self.mmf_hub_base_url) as client:
 ```
 
 ## Software Development Kit (SDK)
-*Coming Soon*
 
-Check back for the Python SDK for our API.
+If you are a Python user, you can use the mmfhubpy SDK to interact with our API. 
+Full information is available [here](https://github.com/CatherineNjeNjenga/mmfhub-api-sdk.git/).
